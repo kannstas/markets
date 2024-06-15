@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ market.market_name }}</h1>
+<p>{{ market.city }}, {{ market.state }} {{ market.zip }}</p>
+<h2>Reviews</h2>
+<ul>
+    {% for review in market.reviews %}
+    <li>{{ review.user_nickname }}: {{ review.rating }} stars</li>
+    <p>{{ review.text }}</p>
+    {% endfor %}
+</ul>
+
+<h2>Leave a Review</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.user_nickname.label }} {{ form.user_nickname(size=20) }}<br>
+    {{ form.text.label }} {{ form.text(rows=4, cols=50) }}<br>
+    {{ form.rating.label }} {{ form.rating() }}<br>
+    {{ form.submit() }}
+</form>
+
+<form method="post" action="{{ url_for('delete', market_id=market.fm_id) }}">
+    <button type="submit">Delete Market</button>
+</form>
+{% endblock %}
